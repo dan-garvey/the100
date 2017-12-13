@@ -98,38 +98,35 @@ def getComponent(graph, node):
             for toNode in graph[node]:
                 stack.append(toNode)
     return visited
-def Dijkstra(graph, source, edges=None):
-    #comp=getComponent(graph,source)
-    #for g in list(graph.keys()):
-    #    if g not in comp:
-    #        graph.pop(g,'ERROR')
+#returns shortest path length and route from source to all points in a connected component
+def Dijkstra(graph, source, edges=None): #edges is a dict with keys as tuples of each edge that has a value of the length of the edge. 
     Q=priorityQueue()
-    dist, prev={},{}
-    dist[source]=0
+    dist, prev={},{} #dist is a dict containing the shortest route from source to each key value. prev is a dict of shortest path to source
+    dist[source]=0 #source gets the value 0 as its distance to source is 0.
     for vert in graph.keys():
         if not vert==source:
-            dist[vert]=float('inf')
-            prev[vert]=[]
-        Q.add_task(vert, dist[vert])
+            dist[vert]=float('inf') #set to infinity because unknown
+            prev[vert]=[] 
+        Q.add_task(vert, dist[vert]) #priority queue sorted by distance. initially all at priority infinity
     while not Q.empty():
         u=Q.pop_task()
         for v in graph[u]:
-            alt=dist[u]+length(u,v,edges)
-            if alt<dist[v]:
+            alt=dist[u]+length(u,v,edges) #length method is necessary because may be multiple edges between two nodes.
+            if alt<dist[v]:  #if a shorter path is found
                 dist[v]=alt
                 prev[v]=u
                 Q.add_task(v, alt)
     return dist, prev
-
+#returns the shortest length between two edges or infinity if no edge exists
 def length(u, v, edges=None):
     if edges==None:
         return 1
     if (u,v) not in edges:
-        return float('inf')
+        return float('inf') #no edge between
     connections=edges[(u,v)]
     connections=sorted(connections)
     return connections[0]
-
+#test function
 def testA():
     gruph=fromLinks([(1,2,),(1,4),(2,3,),(3,4),(5,6)])
 
@@ -146,6 +143,7 @@ def testA():
     for node in distances.keys():
         print('Distance to '+ str(node)+ ":", distances[node])
         #print('Route to: ', route[node])
+#test function
 def testB():
     vertnames='ABCDEFGH'
     edges={}
