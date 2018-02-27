@@ -1,4 +1,5 @@
 import collections
+from operator import add
  
 # This class represents a directed graph using adjacency matrix representation
 class Graph:
@@ -74,48 +75,23 @@ class Graph:
                 v = parent[v]
  
         return max_flow
-def answer(entrances, exits, path):
+
+def supers(entrances, exits, path):
+ #unifies sources and sinks
+  source = [0]*len(path)
+  s = entrances[-1]
+  t = exits[-1]
+  for layer in entrances:
+    source = map(add, supersource, path[layer])
+    path[layer] = [0]*len(path)
+  for layer in exits:
+    path[layer][t] = 2000000
+  path[t][t] = 0
+  path[s] = source
+  return s, t, path
+
+ def answer(entrances, exits, path):
+  entrances, exits, path = supers(entrances, exits, path)
   graph = Graph(path)
   return graph.EdmondsKarp(entrances, exits)
   
-"""def supers(entrances, exits, path):
-  newPath = len(path)-len(exits)-len(entrances)
-  newPath = [newPath*[0]]*newPath
-  supersource = [0]*len(path)
-  supersink= [0]*len(path)
-  graph = Counter()
-  for i in entrances:
-    for j in node
-    graph['s']+=
-  for layer in entrances:
-    #print(supersource)
-    supersource = map(add, supersource, path[layer])
-  for layer in exits:
-    supersink = map(add, supersink, path[layer])
-  
-    
-  path = path[len(entrances):]
-  return supersource, supersink, path
-"""
-entrances = [0, 1]
-exits = [4, 5]
-path = [
-  [0, 0, 4, 6, 0, 0],  # Room 0: Bunnies
-  [0, 0, 5, 2, 0, 0],  # Room 1: Bunnies
-  [0, 0, 0, 0, 4, 4],  # Room 2: Intermediate room
-  [0, 0, 0, 0, 6, 6],  # Room 3: Intermediate room
-  [0, 0, 0, 0, 0, 0],  # Room 4: Escape pods
-  [0, 0, 0, 0, 0, 0],  # Room 5: Escape pods
-]
-
-#source, sink, path = supers(entrances, exits, path)
-print answer(entrances, exits, path)
-"""
-test1 = (entrances, exits, path)
-entrances2 = [0]
-exits2 = [3]
-path2 = [[0, 7, 0, 0], [0, 0, 6, 0], [0, 0, 0, 8], [9, 0, 0, 0]]
-out2= 6
-test2 =(entrances, exits, path)
-
-out1 = 16"""
