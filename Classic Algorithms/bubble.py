@@ -6,8 +6,7 @@ def sort(list):
         for i in range(len(list)-revInd):
             if list[i]>list[i+1]:
                 swap=[list[i+1],list[i]]
-                list[i]=swap[0]
-                list[i+1]=swap[1]
+                list[i], list[i+1] =swap
                 isSorted=False
         revInd+=1
     return list
